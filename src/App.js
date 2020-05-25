@@ -7,11 +7,10 @@ function App() {
 
   return (
     <div className="container mb-5">
-      <div className="text-center">
+      <div className="text-center mb-5">
         <img className="d-block mx-auto mb-4" src="/img/bootstrap-solid.svg" alt="" width="72" height="72" />
         <h2>U mentors</h2>
       </div>
-
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
           <a className={`nav-link px-5 ${tab === 'Comments' ? 'active' : ''}`} id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"
@@ -28,7 +27,6 @@ function App() {
         </div>
         <div className={`tab-pane ${tab === 'Statements' ? 'fade show active' : ''}`} id="profile" role="tabpanel" aria-labelledby="profile-tab">222.</div>
       </div>
-
     </div>
   );
 }

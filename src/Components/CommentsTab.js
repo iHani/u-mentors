@@ -1,10 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, createRef, useRef } from 'react';
 
 export default function () {
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState([
+        { id: 'xxx', comment: "SDFfs sdFs" }
+    ]);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
     const textarea = useRef();
+    const commentsRef = useRef([]);
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
@@ -19,11 +22,10 @@ export default function () {
 
     const deleteComment = (comment) => {
         setComments(comments.filter(_ => _.comment !== comment));
-        setStatus('Comment deleted')
+        setStatus('Comment deleted');
     }
 
-    const handleOnChangeNewComment = ({ target }) => {
-        const { id, value } = target;
+    const handleOnChangeNewComment = ({ target: { value } }) => {
         setNewComment(value);
         setStatus('');
     }
@@ -39,17 +41,16 @@ export default function () {
         setComments(updatedComments);
     }
 
-    const saveComment = ({ target }) => {
-        console.log("saveComment");
-        const { id, value } = target;
-        const updatedComments = comments.map(comment => {
-            if (comment.id === id) {
-                return { id: comment.id, comment: value };
-            }
-            return comment;
-        });
-        setComments(updatedComments);
+    function handleCopyComment(id) {
+        console.log("commentsRef", commentsRef.current['xxx'].innerHTML);
 
+        if (document.queryCommandSupported('copy')) {
+            commentsRef.current.select();
+            document.execCommand('copy');
+            setStatus("Copied");
+        } else {
+            setStatus("Can not copy from your browser!");
+        }
     }
 
     return (
@@ -87,6 +88,7 @@ export default function () {
                             <div className="col-10">
                                 <textarea
                                     id={id}
+                                    ref={el => commentsRef.current[id] = el}
                                     className="comment p-3"
                                     value={comment}
                                     onChange={handleOnChangeComment}
@@ -96,7 +98,7 @@ export default function () {
                                 <button
                                     type="button"
                                     className="btn btn-secondary align-middle m-1 px-2"
-                                    onClick={deleteComment}
+                                    onClick={handleCopyComment}
                                 >Copy</button>
                                 <button
                                     type="button"
@@ -104,12 +106,11 @@ export default function () {
                                     onClick={() => deleteComment(comment)}
                                 >
                                     X
-                                    </button>
+                                </button>
                             </div>
                         </div>
                     )
-                })
-                }
+                })}
             </div>
         </div>
     )
