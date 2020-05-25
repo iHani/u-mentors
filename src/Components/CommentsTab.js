@@ -1,25 +1,36 @@
 import React, { useState, useRef } from 'react';
 
-
-
 export default function () {
     const [comments, setComments] = useState([
-        { id: 342, comment: "hello" },
-        { id: 27686, comment: "world" },
+        { id: '342', comment: "hello" },
+        { id: '27686', comment: "world" },
     ]);
     const [newComment, setNewComment] = useState('');
+    const [editingId, setEditingId] = useState('');
     const textarea = useRef();
 
     const addNewComment = () => {
-        setComments(comments.concat(newComment));
-        setNewComment('');
+        if (newComment.trim() !== '') {
+            setComments(comments.concat({ id: newID(), comment: newComment.trim() }));
+            setNewComment('');
+        }
         textarea.current.focus();
     }
-    const deleteComment = (e) => {
-        // setComments(comments.concat(newComment));
-        // const formData = new FormData(e.target);
-        // console.log("dddd", formData.get("comment-1"));
 
+    const deleteComment = (comment) => {
+        setComments(comments.filter(_ => _.comment !== comment));
+    }
+
+    const handleOnChangeComment = ({ target }) => {
+        const { id, value } = target;
+        setEditingId(id)
+        const updatedComments = comments.map(comment => {
+            if (comment.id === id) {
+                return { id: comment.id, comment: value };
+            }
+            return comment;
+        });
+        setComments(updatedComments);
     }
 
     return (
@@ -50,26 +61,38 @@ export default function () {
                 {comments.map(({ id, comment }) => {
 
                     return (
-                        <div className="row" key={id}>
+                        <div key={id} className="row">
                             <div className="col-10">
-                                <textarea className="comment p-3" defaultValue={comment} />
+                                <textarea
+                                    id={id}
+                                    className="comment p-3"
+                                    value={comment}
+                                    onChange={handleOnChangeComment}
+                                    onBlur={() => setEditingId('')}
+                                />
                             </div>
-                            <div className="col-2 flex-row align-items-center x">
+                            <div className="col-2 flex-row align-items-center buttons">
+                                {editingId === id &&
+                                    <button
+                                        type="button"
+                                        className="btn btn-success align-middle m-1 px-2"
+                                        onClick={deleteComment}
+                                    >Save</button>
+                                }
                                 <button
                                     type="button"
                                     className="btn btn-secondary align-middle m-1 px-2"
                                     onClick={deleteComment}
                                 >Copy</button>
-                                <button
-                                    type="button"
-                                    className="btn btn-success align-middle m-1 px-2"
-                                    onClick={deleteComment}
-                                >Save</button>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger align-middle m-1 px-2"
-                                    onClick={deleteComment}
-                                >Delete</button>
+                                {editingId !== id &&
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger align-middle m-1 px-2"
+                                        onClick={() => deleteComment(comment)}
+                                    >
+                                        Delete
+                                    </button>
+                                }
                             </div>
                         </div>
                     )
@@ -78,5 +101,9 @@ export default function () {
             </div>
         </div>
     )
-
 }
+
+export const newID = (length = 7) =>
+    Math.random()
+        .toString(36)
+        .substr(-1 * (length));

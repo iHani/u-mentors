@@ -11,8 +11,9 @@
   border: 2px dotted #797272;
   border-radius: 0.61rem;
   outline: none;
+  width: 100%;
 }
 
-.x {
+.buttons {
   margin: auto;
 }
