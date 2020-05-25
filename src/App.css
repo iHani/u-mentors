@@ -7,11 +7,15 @@
   background-color: red;
 }
 .comment {
-  background-color: white;
+  background-color: #f3f3f3;
   border: 2px dotted #d8cfcf;
-  border-radius: 0.61rem;
+  border-radius: 0.3rem;
   outline: none;
   width: 100%;
+}
+
+.comment:focus {
+  background-color: white;
 }
 
 .buttons {

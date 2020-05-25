@@ -6,8 +6,8 @@ function App() {
   const [tab, setTab] = useState('Comments');
 
   return (
-    <div className="container">
-      <div className="py-5 text-center">
+    <div className="container mb-5">
+      <div className="text-center">
         <img className="d-block mx-auto mb-4" src="/img/bootstrap-solid.svg" alt="" width="72" height="72" />
         <h2>U mentors</h2>
       </div>

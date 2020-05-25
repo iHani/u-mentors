@@ -3,7 +3,6 @@ import React, { useState, useRef } from 'react';
 export default function () {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
-    const [editingId, setEditingId] = useState('');
     const [status, setStatus] = useState('');
     const textarea = useRef();
 
@@ -31,7 +30,6 @@ export default function () {
 
     const handleOnChangeComment = ({ target }) => {
         const { id, value } = target;
-        setEditingId(id)
         const updatedComments = comments.map(comment => {
             if (comment.id === id) {
                 return { id: comment.id, comment: value };
@@ -51,12 +49,11 @@ export default function () {
             return comment;
         });
         setComments(updatedComments);
-        setEditingId(id);
 
     }
 
     return (
-        <div className="container p-5 white-bg">
+        <div className="container py-5 white-bg">
             <div className="form-group">
                 <label htmlFor="exampleInputEmail1">New comment</label>
                 <textarea
@@ -93,31 +90,21 @@ export default function () {
                                     className="comment p-3"
                                     value={comment}
                                     onChange={handleOnChangeComment}
-                                // onBlur={() => setEditingId('')}
                                 />
                             </div>
                             <div className="col-2 flex-row align-items-center buttons">
-                                {editingId === id &&
-                                    <button
-                                        type="button"
-                                        className="btn btn-success align-middle m-1 px-2"
-                                        onClick={saveComment}
-                                    >Save</button>
-                                }
                                 <button
                                     type="button"
                                     className="btn btn-secondary align-middle m-1 px-2"
                                     onClick={deleteComment}
                                 >Copy</button>
-                                {editingId !== id &&
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger align-middle m-1 px-2"
-                                        onClick={() => deleteComment(comment)}
-                                    >
-                                        Delete
+                                <button
+                                    type="button"
+                                    className="btn btn-danger align-middle m-1 px-2"
+                                    onClick={() => deleteComment(comment)}
+                                >
+                                    X
                                     </button>
-                                }
                             </div>
                         </div>
                     )
