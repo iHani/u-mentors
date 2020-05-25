@@ -1,24 +1,32 @@
 import React, { useState, useRef } from 'react';
 
 export default function () {
-    const [comments, setComments] = useState([
-        { id: '342', comment: "hello" },
-        { id: '27686', comment: "world" },
-    ]);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [editingId, setEditingId] = useState('');
+    const [status, setStatus] = useState('');
     const textarea = useRef();
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
             setComments(comments.concat({ id: newID(), comment: newComment.trim() }));
             setNewComment('');
+            setStatus('Comment Added');
+        } else {
+            setStatus('');
         }
         textarea.current.focus();
     }
 
     const deleteComment = (comment) => {
         setComments(comments.filter(_ => _.comment !== comment));
+        setStatus('Comment deleted')
+    }
+
+    const handleOnChangeNewComment = ({ target }) => {
+        const { id, value } = target;
+        setNewComment(value);
+        setStatus('');
     }
 
     const handleOnChangeComment = ({ target }) => {
@@ -33,8 +41,22 @@ export default function () {
         setComments(updatedComments);
     }
 
+    const saveComment = ({ target }) => {
+        console.log("saveComment");
+        const { id, value } = target;
+        const updatedComments = comments.map(comment => {
+            if (comment.id === id) {
+                return { id: comment.id, comment: value };
+            }
+            return comment;
+        });
+        setComments(updatedComments);
+        setEditingId(id);
+
+    }
+
     return (
-        <div className="container p-5">
+        <div className="container p-5 white-bg">
             <div className="form-group">
                 <label htmlFor="exampleInputEmail1">New comment</label>
                 <textarea
@@ -44,7 +66,7 @@ export default function () {
                     aria-describedby="emailHelp"
                     placeholder="Write a new comment here and click 'Add'"
                     value={newComment}
-                    onChange={e => setNewComment(e.target.value)}
+                    onChange={handleOnChangeNewComment}
                 />
                 <div className="d-flex justify-content-center">
                     <button
@@ -54,6 +76,9 @@ export default function () {
                     >
                         Add
                 </button>
+                </div>
+                <div className="d-flex justify-content-center my-3">
+                    {status}
                 </div>
 
                 <p><strong>Comments: {comments.length}</strong></p>
@@ -68,7 +93,7 @@ export default function () {
                                     className="comment p-3"
                                     value={comment}
                                     onChange={handleOnChangeComment}
-                                    onBlur={() => setEditingId('')}
+                                // onBlur={() => setEditingId('')}
                                 />
                             </div>
                             <div className="col-2 flex-row align-items-center buttons">
@@ -76,7 +101,7 @@ export default function () {
                                     <button
                                         type="button"
                                         className="btn btn-success align-middle m-1 px-2"
-                                        onClick={deleteComment}
+                                        onClick={saveComment}
                                     >Save</button>
                                 }
                                 <button
