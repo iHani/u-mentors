@@ -33,3 +33,11 @@
   border: 3px dotted lightgray;
   border-radius: 10px;
 }
+
+.status-msg {
+  background-color: #ebf7ff;
+  border: 1px dotted lightgray;
+  border-radius: 5px;
+  min-height: 1.65rem;
+  width: 100%;
+}

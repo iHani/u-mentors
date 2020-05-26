@@ -4,7 +4,7 @@ const uMentorsKey = "u-mentors";
 
 export default function () {
     const savedComments = JSON.parse(localStorage.getItem(uMentorsKey));
-    const [comments, setComments] = useState(savedComments);
+    const [displayedComments, setComments] = useState(savedComments);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
     const [search, setSearch] = useState('');
@@ -13,7 +13,7 @@ export default function () {
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
-            const newComments = comments.concat({ id: newID(), comment: newComment.trim() });
+            const newComments = savedComments.concat({ id: newID(), comment: newComment.trim() });
             setComments(newComments);
             localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
             setStatus('Comment Added');
@@ -26,7 +26,7 @@ export default function () {
 
     const deleteComment = (comment) => {
         if (window.confirm('Are you sure you want to delete the comment?')) {
-            const newComments = comments.filter(_ => _.comment !== comment);
+            const newComments = displayedComments.filter(_ => _.comment !== comment);
             setComments(newComments);
             localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
             setStatus('Comment deleted');
@@ -40,7 +40,7 @@ export default function () {
 
     const handleOnChangeComment = ({ target }) => {
         const { id, value } = target;
-        const updatedComments = comments.map(comment => {
+        const updatedComments = displayedComments.map(comment => {
             if (comment.id === id) {
                 return { id: comment.id, comment: value };
             }
@@ -95,12 +95,12 @@ export default function () {
                 </button>
                 </div>
                 <div className="d-flex justify-content-center my-3">
-                    {status}
+                    <p className="status-msg">{status}</p>
                 </div>
 
                 <div className="p-2 d-flex flex-row">
                     <div className="align-self-center">
-                        <p><strong>Comments: {comments.length}</strong></p>
+                        <p><strong>Comments{search.trim() !== '' && ' found'}: {displayedComments.length}</strong></p>
                     </div>
                     <div className="align-self-center">
                         <input
@@ -118,7 +118,7 @@ export default function () {
                     </div>
                 </div>
 
-                {comments.map(({ id, comment }) => {
+                {displayedComments.map(({ id, comment }) => {
 
                     return (
                         <div key={id} className="row">
