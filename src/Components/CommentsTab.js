@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 
 const uMentorsKey = "u-mentors";
-const savedComments = JSON.parse(localStorage.getItem(uMentorsKey));
 
 export default function () {
+    const savedComments = JSON.parse(localStorage.getItem(uMentorsKey));
     const [comments, setComments] = useState(savedComments);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
