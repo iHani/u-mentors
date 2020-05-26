@@ -27,3 +27,9 @@
   border: 1px solid;
   border-color: #fff #dee2e6 #dee2e6;
 }
+
+.statement-container {
+  background-color: #ebf7ff;
+  border: 3px dotted lightgray;
+  border-radius: 10px;
+}
