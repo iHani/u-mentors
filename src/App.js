@@ -7,9 +7,9 @@ function App() {
 
   return (
     <div className="container mb-5">
-      <div className="text-center mb-5">
-        <img className="d-block mx-auto mb-4" src="/img/bootstrap-solid.svg" alt="" width="72" height="72" />
+      <div className="text-center my-5">
         <h2>U mentors</h2>
+        <p>Save your common comments, and see your monthly statements in simple charts</p>
       </div>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">

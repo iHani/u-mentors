@@ -23,10 +23,12 @@ export default function () {
     }
 
     const deleteComment = (comment) => {
-        const newComments = comments.filter(_ => _.comment !== comment);
-        setComments(newComments);
-        localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
-        setStatus('Comment deleted');
+        if (window.confirm('Are you sure you want to delete the comment?')) {
+            const newComments = comments.filter(_ => _.comment !== comment);
+            setComments(newComments);
+            localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
+            setStatus('Comment deleted');
+        }
     }
 
     const handleOnChangeNewComment = ({ target: { value } }) => {
