@@ -1,18 +1,21 @@
 import React, { useState, useRef } from 'react';
 
+const uMentorsKey = "u-mentors";
+const savedComments = JSON.parse(localStorage.getItem(uMentorsKey));
+
 export default function () {
-    const [comments, setComments] = useState([
-        { id: 'xxx', comment: "SDFfs sdFs" }
-    ]);
+    const [comments, setComments] = useState(savedComments);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
     const textarea = useRef();
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
-            setComments(comments.concat({ id: newID(), comment: newComment.trim() }));
-            setNewComment('');
+            const newComments = comments.concat({ id: newID(), comment: newComment.trim() });
+            setComments(newComments);
+            localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
             setStatus('Comment Added');
+            setNewComment('');
         } else {
             setStatus('');
         }
@@ -20,7 +23,9 @@ export default function () {
     }
 
     const deleteComment = (comment) => {
-        setComments(comments.filter(_ => _.comment !== comment));
+        const newComments = comments.filter(_ => _.comment !== comment);
+        setComments(newComments);
+        localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
         setStatus('Comment deleted');
     }
 
@@ -38,6 +43,12 @@ export default function () {
             return comment;
         });
         setComments(updatedComments);
+        localStorage.setItem(uMentorsKey, JSON.stringify(updatedComments));
+    }
+
+    const handleCopyComment = (comment) => {
+        navigator.clipboard.writeText(comment);
+        setStatus('Copied');
     }
 
     return (
@@ -84,7 +95,7 @@ export default function () {
                                 <button
                                     type="button"
                                     className="btn btn-secondary align-middle m-1 px-2"
-                                    onClick={() => navigator.clipboard.writeText(comment)}
+                                    onClick={() => handleCopyComment(comment)}
                                 >Copy</button>
                                 <button
                                     type="button"
