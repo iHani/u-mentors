@@ -7,7 +7,9 @@ export default function () {
     const [comments, setComments] = useState(savedComments);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
+    const [search, setSearch] = useState('');
     const textarea = useRef();
+    const searchInput = useRef();
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
@@ -53,6 +55,23 @@ export default function () {
         setStatus('Copied');
     }
 
+    const handleSearch = ({ target: { value } }) => {
+        setSearch(value);
+        if (value.trim() !== '') {
+            const filteredComment = savedComments
+                .filter(({ comment }) => comment.toLowerCase().includes(value.toLowerCase()));
+            setComments(filteredComment);
+        } else {
+            setComments(savedComments);
+        }
+    }
+
+    const handleClearSearch = () => {
+        setSearch('');
+        setComments(savedComments);
+        searchInput.current.focus();
+    }
+
     return (
         <div className="container py-5 white-bg">
             <div className="form-group">
@@ -79,7 +98,25 @@ export default function () {
                     {status}
                 </div>
 
-                <p><strong>Comments: {comments.length}</strong></p>
+                <div className="p-2 d-flex flex-row">
+                    <div className="align-self-center">
+                        <p><strong>Comments: {comments.length}</strong></p>
+                    </div>
+                    <div className="align-self-center">
+                        <input
+                            ref={searchInput}
+                            type="text"
+                            className="form-control mx-3"
+                            placeholder="Search in your comments.."
+                            value={search}
+                            onChange={handleSearch}
+                            autoFocus
+                        />
+                    </div>
+                    <div className="ml-4 align-self-center">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onClick={handleClearSearch}>clear</button>
+                    </div>
+                </div>
 
                 {comments.map(({ id, comment }) => {
 
@@ -96,12 +133,12 @@ export default function () {
                             <div className="col-2 flex-row align-items-center buttons">
                                 <button
                                     type="button"
-                                    className="btn btn-secondary align-middle m-1 px-2"
+                                    className="btn btn-sm btn-secondary align-middle m-1 px-2"
                                     onClick={() => handleCopyComment(comment)}
                                 >Copy</button>
                                 <button
                                     type="button"
-                                    className="btn btn-danger align-middle m-1 px-2"
+                                    className="btn btn-sm btn-danger align-middle m-1 px-2"
                                     onClick={() => deleteComment(comment)}
                                 >X</button>
                             </div>
