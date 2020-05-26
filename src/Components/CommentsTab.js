@@ -1,4 +1,4 @@
-import React, { useState, createRef, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function () {
     const [comments, setComments] = useState([
@@ -7,7 +7,6 @@ export default function () {
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
     const textarea = useRef();
-    const commentsRef = useRef([]);
 
     const addNewComment = () => {
         if (newComment.trim() !== '') {
@@ -39,18 +38,6 @@ export default function () {
             return comment;
         });
         setComments(updatedComments);
-    }
-
-    function handleCopyComment(id) {
-        console.log("commentsRef", commentsRef.current['xxx'].innerHTML);
-
-        if (document.queryCommandSupported('copy')) {
-            commentsRef.current.select();
-            document.execCommand('copy');
-            setStatus("Copied");
-        } else {
-            setStatus("Can not copy from your browser!");
-        }
     }
 
     return (
@@ -88,7 +75,6 @@ export default function () {
                             <div className="col-10">
                                 <textarea
                                     id={id}
-                                    ref={el => commentsRef.current[id] = el}
                                     className="comment p-3"
                                     value={comment}
                                     onChange={handleOnChangeComment}
@@ -98,15 +84,13 @@ export default function () {
                                 <button
                                     type="button"
                                     className="btn btn-secondary align-middle m-1 px-2"
-                                    onClick={handleCopyComment}
+                                    onClick={() => navigator.clipboard.writeText(comment)}
                                 >Copy</button>
                                 <button
                                     type="button"
                                     className="btn btn-danger align-middle m-1 px-2"
                                     onClick={() => deleteComment(comment)}
-                                >
-                                    X
-                                </button>
+                                >X</button>
                             </div>
                         </div>
                     )
