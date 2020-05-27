@@ -4,7 +4,7 @@ const uMentorsKey = "u-mentors";
 
 export default function () {
     const savedComments = JSON.parse(localStorage.getItem(uMentorsKey));
-    const [displayedComments, setComments] = useState(savedComments);
+    const [displayedComments, setComments] = useState(savedComments || []);
     const [newComment, setNewComment] = useState('');
     const [status, setStatus] = useState('');
     const [search, setSearch] = useState('');
