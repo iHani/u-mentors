@@ -94,7 +94,7 @@ export default function () {
                         Add
                 </button>
                 </div>
-                <div className="d-flex justify-content-center my-3">
+                <div className="d-flex justify-content-center my-3 text-center">
                     <p className="status-msg">{status}</p>
                 </div>
 
