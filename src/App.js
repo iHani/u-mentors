@@ -4,7 +4,7 @@ import CommentsTab from './Components/CommentsTab';
 import StatementsTab from './Components/StatementsTab';
 
 function App() {
-  const [tab, setTab] = useState('Statements');
+  const [tab, setTab] = useState('Comments');
 
   return (
     <div className="container mb-5">
