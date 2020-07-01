@@ -17,7 +17,7 @@ function App() {
       </div>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
-          <a
+          <span
             className={`nav-link px-5 ${tab === "Comments" ? "active" : ""}`}
             id="comments-tab"
             data-toggle="tab"
@@ -28,10 +28,10 @@ function App() {
             onClick={() => setTab("Comments")}
           >
             Comments
-          </a>
+          </span>
         </li>
         <li className="nav-item" role="presentation">
-          <a
+          <span
             className={`nav-link px-5 ${tab === "Statements" ? "active" : ""}`}
             id="statements-tab"
             data-toggle="tab"
@@ -42,7 +42,7 @@ function App() {
             onClick={() => setTab("Statements")}
           >
             Statements
-          </a>
+          </span>
         </li>
       </ul>
       <div className="tab-content" id="myTabContent">

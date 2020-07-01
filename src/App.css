@@ -2,6 +2,9 @@
   font-weight: 700;
   font-size: 1.2rem;
 }
+.nav-link:hover {
+  cursor: pointer;
+}
 
 .saved-comments {
   background-color: red;
