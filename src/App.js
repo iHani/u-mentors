@@ -19,11 +19,11 @@ function App() {
         <li className="nav-item" role="presentation">
           <a
             className={`nav-link px-5 ${tab === "Comments" ? "active" : ""}`}
-            id="home-tab"
+            id="comments-tab"
             data-toggle="tab"
-            href="#home"
+            data-target="#Comments"
             role="tab"
-            aria-controls="home"
+            aria-controls="comments"
             aria-selected="false"
             onClick={() => setTab("Comments")}
           >
@@ -33,11 +33,11 @@ function App() {
         <li className="nav-item" role="presentation">
           <a
             className={`nav-link px-5 ${tab === "Statements" ? "active" : ""}`}
-            id="profile-tab"
+            id="statements-tab"
             data-toggle="tab"
-            href="#profile"
+            data-target="#statements"
             role="tab"
-            aria-controls="profile"
+            aria-controls="statements"
             aria-selected="true"
             onClick={() => setTab("Statements")}
           >
