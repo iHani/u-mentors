@@ -5,7 +5,7 @@ import Chart from "./Chart";
 export default function () {
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [tab, setTab] = useState("Charts");
+  //   const [tab, setTab] = useState("Charts");
 
   function MyDropzone() {
     const onDrop = useCallback((acceptedFiles) => {
@@ -33,7 +33,7 @@ export default function () {
     });
 
     return (
-      <div className="statement-container p-5 text-center" {...getRootProps()}>
+      <div className="statement-container text-center pt-3" {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
           <p>Drop them here ...</p>
@@ -46,7 +46,7 @@ export default function () {
 
   return (
     <div className="container py-2 white-bg">
-      <ul className="nav nav-tabs" id="myTab" role="tablist">
+      {/* <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
           <a
             className={`nav-link px-5 ${tab === "Charts" ? "active" : ""}`}
@@ -75,24 +75,9 @@ export default function () {
             Files
           </a>
         </li>
-      </ul>
+      </ul> */}
       <div className="tab-content" id="myTabContent">
-        <div
-          className={`container py-3 tab-pane ${
-            tab === "Charts" ? "fade show active" : ""
-          }`}
-          role="tabpanel"
-          aria-labelledby="charts-tab"
-        >
-          <Chart />
-        </div>
-        <div
-          className={`container py-3 tab-pane ${
-            tab === "Files" ? "fade show active" : ""
-          }`}
-          role="tabpanel"
-          aria-labelledby="files-tab"
-        >
+        <div className="py-2">
           <MyDropzone />
           <p>Uploaded files:</p>
           <ul>
@@ -100,6 +85,10 @@ export default function () {
               <li key={i}>{file.name}</li>
             ))}
           </ul>
+        </div>
+
+        <div className="py-2">
+          <Chart />
         </div>
       </div>
     </div>

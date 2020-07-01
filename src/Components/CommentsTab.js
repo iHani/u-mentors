@@ -29,9 +29,7 @@ export default function () {
 
   const deleteComment = (comment) => {
     if (window.confirm("Are you sure you want to delete the comment?")) {
-      const newComments = displayedComments.filter(
-        (_) => _.comment !== comment
-      );
+      const newComments = savedComments.filter((_) => _.comment !== comment);
       setComments(newComments);
       localStorage.setItem(uMentorsKey, JSON.stringify(newComments));
       setStatus("Comment deleted");
