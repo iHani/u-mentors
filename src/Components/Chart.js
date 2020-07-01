@@ -45,11 +45,20 @@ import Chart from "chart.js";
 export default (props) => {
   const chartRef = React.useRef();
   useEffect(() => {
-    console.log("props", props);
+    console.log(
+      "Object.values(props.chartData)",
+      Object.values(props.chartData)
+    );
     const myChartRef = chartRef.current.getContext("2d");
-    const earningData = props.earningData || [1, 22, 4, 7, 8, 10, 6, 8, 5];
-    const tasksData = props.tasksData || [2, 5, 4, 2, 3, 3, 4, 8, 10];
-    const labels = props.labels;
+    const tasksData = [];
+    const earningData = [];
+    // const tasksData = props.chartData.tasks.ma
+    // const earningData = props.chartData.earning.ma
+    Object.keys(props.chartData).forEach((k, i) => {
+      tasksData.push(props.chartData[k].tasks);
+      earningData.push(props.chartData[k].earning);
+    });
+    const labels = Object.keys(props.chartData).sort();
 
     new Chart(myChartRef, {
       type: "line",
