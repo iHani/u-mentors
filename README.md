@@ -4,6 +4,8 @@ Single page app to save common comments, with a simple interface to drag & drop 
 
 _All comments are saved in the browser's local storage, make sure to back up them regularly._
 
+LIVE https://quizzical-lewin-037a9b.netlify.app
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
