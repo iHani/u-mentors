@@ -11,8 +11,8 @@ function App() {
       <div className="text-center my-5">
         <h2>U mentors</h2>
         <p>
-          Save your common comments, and see your monthly statements in simple
-          charts
+          Save your common comments, and see your monthly statements in a simple
+          chart
         </p>
       </div>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -63,6 +63,15 @@ function App() {
           <StatementsTab />
         </div>
       </div>
+      <footer className="mastfoot my-5 text-center">
+        <div className="inner">
+          <p>
+            <a href="https://github.com/iHani/u-mentors">
+              <i className="fab fa-github fa-lg mx-2"></i>
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

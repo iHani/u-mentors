@@ -85,7 +85,7 @@ export default function () {
           className="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
-          placeholder="Write a new comment here and click 'Add'"
+          placeholder="Write a new comment here and click 'Save'"
           value={newComment}
           onChange={handleOnChangeNewComment}
         />
@@ -95,7 +95,7 @@ export default function () {
             className="btn btn-primary mt-2 px-5"
             onClick={addNewComment}
           >
-            Add
+            Save
           </button>
         </div>
         <div className="d-flex justify-content-center my-3 text-center">

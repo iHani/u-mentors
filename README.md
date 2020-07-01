@@ -1,3 +1,9 @@
+# U-Mentors
+
+Single page app to save common comments, with a simple interface to drag & drop .csv statements to display them in a chart.
+
+_All comments are saved in the browser's local storage, make sure to back up them regularly._
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

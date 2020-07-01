@@ -13,16 +13,13 @@ export default function () {
       setUploadedFiles(acceptedFiles);
       acceptedFiles.forEach((file) => {
         const reader = new FileReader();
-
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
+        // reader.onabort = () => console.log("file reading was aborted");
+        // reader.onerror = () => console.log("file reading has failed");
         reader.onload = () => {
           const binaryStr = reader.result;
           const view = new Int8Array(binaryStr);
           const rows = String.fromCharCode.apply(null, view);
-
           parseStatement(rows);
-          //   console.log(rows.split(/\r?\n/)[1]);
         };
         reader.readAsArrayBuffer(file);
       });
@@ -35,8 +32,6 @@ export default function () {
     function parseStatement(rows) {
       if (rows == null || rows.split(",").length < 2) return;
 
-      // extract dates and save it as a set in this format "May/01/2020"
-      //   let labelSet = new Set();
       let labelsObj = {};
       rows.split(/\r?\n/).forEach((row, i) => {
         if (i !== 0) {
@@ -44,7 +39,6 @@ export default function () {
           const dateSplit = `${new Date(timestamp)}`.split(" ");
           if (dateSplit[1] && dateSplit[2] && dateSplit[3]) {
             const date = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[3];
-            // labelSet.add(date);
             const d = labelsObj[date];
             labelsObj[date] = {
               tasks: d ? d.tasks + 1 : 1,
@@ -55,19 +49,15 @@ export default function () {
           }
         }
       });
-      //   const labels = Array.from(labelSet).sort();
-      console.log(
-        "valz",
-        Object.values(labelsObj).reduce((total, num) => {
-          return total.tasks - num.tasks;
-        })
-      );
+      const totTasks = Object.values(labelsObj)
+        .map(({ tasks }) => tasks)
+        .reduce((total, num) => total + num);
+      const totEarning = Object.values(labelsObj)
+        .map(({ earning }) => earning)
+        .reduce((total, num) => total + num);
       setChartData(labelsObj);
-      const totTasks = 0;
-      //   const totEarning = 0
-
-      setTotalTasks();
-      setTotalEarning();
+      setTotalEarning(totEarning);
+      setTotalTasks(totTasks);
     }
 
     return (
@@ -87,19 +77,22 @@ export default function () {
       <div className="tab-content" id="myTabContent">
         <div className="py-2">
           <MyDropzone />
-          <p>Uploaded file:</p>
           <ul>
             {uploadedFiles.map((file, i) => (
-              <li key={i}>{file.name}</li>
+              <li key={i}>File: {file.name}</li>
             ))}
           </ul>
         </div>
-
-        <div className="py-2">
-          <p>Total Tasks: {totalTasks}</p>
-          <p>Total Earning: {totalEarning}</p>
-        </div>
-
+        {uploadedFiles.length > 0 && (
+          <div className="py-2 d-flex justify-content-center">
+            <span className="mx-2">
+              Total Tasks: <b>{totalTasks}</b>
+            </span>
+            <span className="mx-2">
+              Total Earning: <b>${totalEarning}</b>
+            </span>
+          </div>
+        )}
         <div className="py-2">
           <Chart chartData={chartData} />
         </div>
