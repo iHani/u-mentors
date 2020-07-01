@@ -45,22 +45,11 @@ import Chart from "chart.js";
 export default (props) => {
   const chartRef = React.useRef();
   useEffect(() => {
+    console.log("props", props);
     const myChartRef = chartRef.current.getContext("2d");
     const earningData = props.earningData || [1, 22, 4, 7, 8, 10, 6, 8, 5];
     const tasksData = props.tasksData || [2, 5, 4, 2, 3, 3, 4, 8, 10];
-    const labels = props.labels || [
-      "Item 1",
-      "Item 2",
-      "Item 3",
-      "Item 4",
-      "Item 5",
-      "Item 6",
-      "Item 1",
-      "Item 2",
-      "Item 3",
-      "Item 4",
-      "Item 5",
-    ];
+    const labels = props.labels;
 
     new Chart(myChartRef, {
       type: "line",
@@ -93,7 +82,8 @@ export default (props) => {
         },
       },
     });
-  });
+  }, [props]);
+
   return (
     <div>
       <canvas id="myChart" ref={chartRef} />

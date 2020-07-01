@@ -3,34 +3,55 @@ import { useDropzone } from "react-dropzone";
 import Chart from "./Chart";
 
 export default function () {
-  const [status, setStatus] = useState("");
+  const [chartData, setChartData] = useState({});
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  //   const [tab, setTab] = useState("Charts");
 
   function MyDropzone() {
     const onDrop = useCallback((acceptedFiles) => {
       setUploadedFiles(acceptedFiles);
-      console.log("acceptedFiles", acceptedFiles);
-
       acceptedFiles.forEach((file) => {
         const reader = new FileReader();
 
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading has failed");
         reader.onload = () => {
-          // Do whatever you want with the file contents
           const binaryStr = reader.result;
           const view = new Int8Array(binaryStr);
-          const str = String.fromCharCode.apply(null, view);
+          const rows = String.fromCharCode.apply(null, view);
 
-          console.log(str.split(/\r?\n/));
+          parseStatement(rows);
+          //   console.log(rows.split(/\r?\n/)[1]);
         };
         reader.readAsArrayBuffer(file);
       });
     }, []);
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
     });
+
+    function parseStatement(rows) {
+      let labels = new Set();
+
+      rows.split(/\r?\n/).forEach((row, i) => {
+        if (i !== 0) {
+          const timestamp = row.split(",")[5];
+          const dateSplit = `${new Date(timestamp)}`.split(" ");
+          if (dateSplit[1] && dateSplit[2] && dateSplit[3]) {
+            const date = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[3];
+            labels.add(date);
+          }
+        }
+      });
+      console.log(Array.from(labels).sort());
+
+      const chartData = {
+        labels: Array.from(labels).sort(),
+        tasksData: [],
+        earningData: [],
+      };
+      setChartData(chartData);
+    }
 
     return (
       <div className="statement-container text-center pt-3" {...getRootProps()}>
@@ -46,40 +67,10 @@ export default function () {
 
   return (
     <div className="container py-2 white-bg">
-      {/* <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item" role="presentation">
-          <a
-            className={`nav-link px-5 ${tab === "Charts" ? "active" : ""}`}
-            id="charts-tab"
-            data-toggle="tab"
-            href="#charts"
-            role="tab"
-            aria-controls="charts"
-            aria-selected="false"
-            onClick={() => setTab("Charts")}
-          >
-            Charts
-          </a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a
-            className={`nav-link px-5 ${tab === "Files" ? "active" : ""}`}
-            id="files-tab"
-            data-toggle="tab"
-            href="#files"
-            role="tab"
-            aria-controls="files"
-            aria-selected="true"
-            onClick={() => setTab("Files")}
-          >
-            Files
-          </a>
-        </li>
-      </ul> */}
       <div className="tab-content" id="myTabContent">
         <div className="py-2">
           <MyDropzone />
-          <p>Uploaded files:</p>
+          <p>Uploaded file:</p>
           <ul>
             {uploadedFiles.map((file, i) => (
               <li key={i}>{file.name}</li>
@@ -88,7 +79,7 @@ export default function () {
         </div>
 
         <div className="py-2">
-          <Chart />
+          <Chart {...chartData} />
         </div>
       </div>
     </div>
